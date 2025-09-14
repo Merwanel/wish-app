@@ -1,0 +1,4 @@
+<label tabindex="0" for="upload" class="upload-label" (keydown.enter)="onEnterDoClickUpload()">
+  {{labelText}}
+</label>
+<input #uploadRef id="upload" type="file" accept="image/*" alt="Uploaded Image" (change)="onFileSelectedDoEmit($event)">

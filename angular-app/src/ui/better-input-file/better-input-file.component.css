@@ -1,0 +1,16 @@
+#upload {
+  display: none;
+}
+
+.upload-label {
+  border: 2px solid var(--font-color);
+  border-radius: 4px;
+  display: inline-block;
+  padding: 4px 10px;
+  margin-block: 4px;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

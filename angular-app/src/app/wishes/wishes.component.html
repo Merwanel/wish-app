@@ -1,0 +1,55 @@
+<app-search 
+  [val]="search_words.join(' ')"
+  (searchChange)="onSearchChangeUpdateURL($event)"
+/>
+@if(adding) {
+  <div class="app-add-wish" >
+    <app-add-wish (close)="onToogleAdd()" (wishAdded)="onWishAddedDoUpdateDisplay()" />
+  </div>
+}
+@else {
+  <button class="add-button" (click)="onToogleAdd()">+</button>
+}
+<div class="presentation-wrapper">
+  <app-better-select 
+  [label]="'Affichage'"
+  [options]="options"
+  (select)="onClickDoChangeDisplayMode($event)"
+  />
+  <div class="wrapper-select-per-page">
+    <label id="select-per-page-label" for="select-per-page">Per page</label>
+    <select id="select-per-page" name="select-per-page" (change)="onChangeDoUpdatePerPage($event)">
+      @for (item of [5,10,20,30,40,50]; track $index) {
+        <option value="{{item}}" [selected]="itemsPerPage == item">{{item}}</option>
+      }
+      @if(![5,10,20,30,40,50].includes(itemsPerPage)) {
+        <option value="{{itemsPerPage}}" selected>{{itemsPerPage}}</option>
+      }
+    </select>
+  </div>
+  {{`${wishes_matching.length} items`}}
+</div>
+<app-pagination 
+  [currentPage]="currentPage" 
+  [totalPages]="totalPages"
+  (prev)="prevPage()" 
+  (next)="nextPage()"
+/>
+
+<div [class]="'wishes ' + display_mode" >
+     
+  @for (display of display_wishes; track display.wish.id) {
+      <app-wish 
+        [idx]="display.ori_idx" 
+        [wish]="display.wish" 
+        [display_mode]="display_mode" 
+        (wishUpdated)="onWishUpdatedDoUpdateWish($event)" 
+        (wishDeleted)="onWishDeletedDoUpdateDisplay($event)" />
+  }
+</div>
+<app-pagination 
+  [currentPage]="currentPage" 
+  [totalPages]="totalPages"
+  (prev)="prevPage()" 
+  (next)="nextPage()"
+/>

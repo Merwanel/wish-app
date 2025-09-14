@@ -1,0 +1,35 @@
+<article class="tag-wrap">
+  
+  <div>
+    <app-dynamic-input 
+      [(inputModel)]="tag" 
+      [is_tag]="true"
+      [is_autofocus]="tag.val === ''"
+      (ref)="recieveRef($event)"
+      (change)="onChangeDoUpdateSuggestionAndEmitChange()" 
+      (focus)="onFocusDoOpenDropdown()" 
+      (blur)="onBlurDoCloseDropdownAndCallChange()" 
+      (input)="onInputDoOpenDropdownAndUpdateSuggestion()"
+      (keydown)="onKeyDown($event)"    
+    />
+    <button class="delete-button" (click)="onDeleteDoTagEmptyAndCallChange()">🗙</button>
+  </div>
+
+  @if(is_dropdown_opened) {
+    <div class="suggestions"><ul>
+      @for ( tag_suggestion of suggestions; track $index ) {
+        <li>
+          <button 
+            #suggestionRef
+            class="suggestion-button" [tabindex]="1"
+            [autofocus]="selected_suggestion_index === $index"
+            [ngClass]="{selected : $index === selected_suggestion_index}"
+            (mousedown)="onCickSuggestionDoUpdateTagAndCallChange($index)" 
+          >
+          <app-display-letters [letters]="tag_suggestion.letters" />
+          </button>
+        </li>
+      }
+    </ul></div>
+  }
+</article>

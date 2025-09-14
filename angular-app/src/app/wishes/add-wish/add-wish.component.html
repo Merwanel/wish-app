@@ -1,0 +1,57 @@
+<form class="form" (keydown.enter)="$event.preventDefault()"  (ngSubmit)="onSubmitDoCreateWish()">
+  <div class="wrapper-name-input">
+    
+    <label for="name"></label>
+    
+    <app-dynamic-input [(inputModel)]="wish.name" [is_autofocus]="true" />
+
+    <div class="alert">
+      @if (wish.name.val.length === 0) {
+        <div>
+          Name is required.
+        </div>
+      }
+      @else if (wish.name.val.length < 3) {
+        <div>
+          Name must be at least 3 characters long.
+        </div>
+      }
+    </div>
+  </div>
+    
+  <app-dynamic-input [(inputModel)]="wish.comment" />
+  
+  <app-tags [wish]="wish" [doUpdateWish]="false"/>
+
+  <div>
+    <app-better-input-file [labelText]="'upload image'" (fileSelected)="onFileSelectedDoDisplay($event)"/>
+    @if (imageUrlDisplayed) {
+      <div class="image-display">
+        <img [src]="imageUrlDisplayed" alt="Uploaded Image" />
+      </div>
+    }
+  </div>
+  @if ( imagesSuggestions.length > 0 || isSearchingImages ) {
+    <div class="image-suggestions">
+      @for ( imageSuggestion of imagesSuggestions; track $index ) {
+        <div class="image-suggestion" (click)="onClickImageSuggestionDoSelect($index)">
+          <img [src]="imageSuggestion.display" alt="Uploaded Image" width="300px" />
+        </div>
+      }
+      @if (isSearchingImages) {
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+      }
+    </div>
+  }
+  @else {
+    <button class="suggestions-button" type="button" (click)="onClickDoGetImages()">
+      <p>get images suggestions</p>
+    </button>
+  }
+  <div class="complete-buttons">
+    <button class="decision-button create-button" type="submit" [disabled]="this.wish.name.val.length < 3">Create</button>
+    <button class="decision-button cancel-button" type="button" (click)="onCancelDoEmitClose()" >Cancel</button>
+  </div>
+</form>

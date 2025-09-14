@@ -1,0 +1,121 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --font-size-input: 14px;
+  --width-big-images: 200px;
+  --height-big-images: 300px;
+}
+:root, .theme-light {
+  --main-bg-color: oklch(0.96 0 0);
+  --wish-bg-color: oklch(0.98 0.03 164.55);
+  --search-bg-color: oklch(0.98 0.03 164.55);
+  --add-bg-color: var(--search-bg-color);
+  --tag-bg-color: oklch(0.70 0.25 150 / .7);
+  --font-color: oklch(0.2 0 0);
+  --valid-color: oklch(0.9 0.25 135);
+  --reject-color: oklch(0.78 0.17 26.03);
+  --caret-color: var(--font-color);
+}
+
+.theme-dark {
+  --main-bg-color: oklch(0.2 0.03 275);
+  --wish-bg-color: oklch(0.25 0.03 275);
+  --search-bg-color: var(--wish-bg-color);
+  --add-bg-color: var(--search-bg-color);
+  --tag-bg-color: oklch(0.5 0.25 320 / .8);
+  --font-color: oklch(0.9 0.05 275);
+  --valid-color: oklch(0.5 0.25 135);
+  --reject-color: oklch(0.5 0.25 30);
+  --caret-color: var(--font-color);
+}
+
+.theme-gray {
+  --main-bg-color: oklch(0.5 0.01 0);
+  --wish-bg-color: oklch(0.55 0 0);
+  --search-bg-color: var(--wish-bg-color);
+  --add-bg-color: var(--search-bg-color);
+  --tag-bg-color: oklch(0.70 0.25 150 / .7);
+  --font-color: oklch(0.88 0 0);
+  --valid-color: oklch(0.5 0.25 135);
+  --reject-color: oklch(0.65 0.25 30);
+  --caret-color: var(--font-color);
+}
+
+.theme-blue {
+  --main-bg-color: oklch(0.85 0.1 240);
+  --wish-bg-color: oklch(0.9 0.08 240);
+  --search-bg-color: oklch(0.9 0.08 240);
+  --add-bg-color: var(--search-bg-color);
+  --tag-bg-color: oklch(0.6 0.2 200 / .8);
+  --font-color: oklch(0.2 0.05 240);
+  --valid-color: oklch(0.8 0.2 135);;
+  --reject-color: oklch(0.75 0.19 28.64);;
+  --caret-color: var(--font-color);
+}
+
+.theme-chocolate {
+  --main-bg-color: oklch(0.25 0.035 45);
+  --wish-bg-color: oklch(0.32 0.04 50);
+  --search-bg-color: oklch(0.32 0.04 50);
+  --add-bg-color: var(--search-bg-color);
+  --tag-bg-color: oklch(0.55 0.15 35 / .8);
+  --font-color: oklch(0.82 0.025 65);
+  --valid-color: oklch(0.5 0.2 135);
+  --reject-color: oklch(0.65 0.2 30);
+  --caret-color: var(--font-color);
+}
+
+.theme-solarized {
+  --main-bg-color: oklch(0.97 0.02 85);
+  --wish-bg-color: oklch(0.93 0.03 85);
+  --search-bg-color: oklch(0.93 0.03 85);
+  --add-bg-color: var(--search-bg-color);
+  --tag-bg-color: oklch(0.65 0.18 60 / .8);
+  --font-color: oklch(0.42 0.05 85);
+  --valid-color: oklch(0.85 0.25 135);
+  --reject-color: oklch(0.85 0.25 30);
+  --caret-color: var(--font-color);
+}
+body {
+  margin: 20px;
+  background-color: var(--main-bg-color);
+}
+body, button, input , textarea {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: medium;
+  color: var(--font-color);
+}
+
+input {
+  border : 0 ;
+  background-color: transparent;
+  caret-color: var(--caret-color);
+}
+ul , p {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+/* 
+input {
+  border: none;
+} */
+
+button {
+  border : 0 ;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+
+img {
+  display: block;
+  width: 100%;
+}

@@ -1,0 +1,52 @@
+.wishes {
+  --border-wish: .5px solid black;
+  display: flex;
+}
+
+.display-big-images {
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+.display-list {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+
+.add-button {
+  border: 1px solid;
+  border-radius: 5px;
+  width: 35px;
+  background-color: var(--add-bg-color);
+}
+
+.button-display {
+  margin-inline-start: 20px;
+  margin-block: 7px;
+}
+
+.button-display-activated {
+  transform: scale(1.8);
+  color: gray;
+}
+
+.for {
+  width: 100%;
+  height: 500px
+}
+
+.presentation-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 30px;
+}
+
+#select-per-page {
+  background: var(--wish-bg-color);
+  color: var(--font-color);
+  border: none;
+  border-radius: 5px;
+}

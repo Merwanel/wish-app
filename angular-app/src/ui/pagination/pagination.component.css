@@ -1,0 +1,17 @@
+.navigation-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: var(--add-bg-color);
+}
+.navigation-button {
+  padding: 3px 8px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: var(--add-bg-color);
+}
+.navigation-button:hover {
+  transform: scale(1.1);
+}

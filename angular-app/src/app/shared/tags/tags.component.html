@@ -1,0 +1,8 @@
+<div class="tags">
+  @for (tag of wish.tags; track tag.id) {
+    <app-tag [index]=$index [tag]="tag" [doUpdateWish]="doUpdateWish"
+     (changeCustom)="onChangeDoUpdateWishTags($event)"
+    />
+  }
+  <button class="add-tag-button" type="button" (click)="onClickDoAdd()">+</button>
+</div>

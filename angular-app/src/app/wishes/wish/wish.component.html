@@ -1,0 +1,78 @@
+<article [class]="'wish ' + display_mode ">
+  
+  @if(display_mode==='display-big-images') {
+    <div 
+      class="image-display" 
+      (mouseover)="onMouseOverImageDoDisplayBiggerImage()" 
+      (mouseout)="onMouseOutImageDoUndoBiggerImage()"
+    >
+    <label [for]="'input-image-' + wish.id" [id]="'input-image-label' + wish.id" class="label-image">
+      <div class="image-wrapper-wrapper">
+        <button class="delete-button" (click)="onDeleteWish()">X</button>
+        <div class="image-wrapper" >
+          <input 
+          [id]="'input-image-' + wish.id" 
+          class="input-image" type="file" 
+          accept="image/*" 
+          alt="Uploaded Image" 
+          (change)="onFileSelectedDoUpdateImageAndUndoBiggerImage($event)"
+          />
+          @if (imagesrc) {
+            <img [src]="imagesrc" alt="Uploaded Image" />
+          }
+          @else {
+            📷
+          }
+        </div>
+      </div>
+        <div class="name-comment-tags">
+
+          <app-dynamic-text-area [(inputModel)]="wish.name" (change)="onChangeDoUpdateWish({'name':wish.name.val})" />
+          
+          <app-dynamic-text-area [(inputModel)]="wish.comment" [is_comment]="true" (change)="onChangeDoUpdateWish({'comment':wish.comment.val})" />
+          
+          <app-tags [wish]="wish" [doUpdateWish]="true"/>
+        </div>
+          
+        <p class="date"> {{ wish.createdAt | date }} </p>
+      </label>
+    </div>
+  }
+  @if(display_mode==='display-list') {
+    <app-dynamic-text-area [(inputModel)]="wish.name" (change)="onChangeDoUpdateWish({'name':wish.name.val})" />
+    
+    <app-dynamic-text-area [(inputModel)]="wish.comment" (change)="onChangeDoUpdateWish({'comment':wish.comment.val})" />
+    
+    <app-tags [wish]="wish" [doUpdateWish]="true"/>
+    
+    <p class="date"> {{ wish.createdAt | date }} </p>
+    <div 
+      class="image-display" 
+      (mouseover)="onMouseOverImageDoDisplayBiggerImage()" 
+      (mouseout)="onMouseOutImageDoUndoBiggerImage()"
+    >
+      <label [for]="'input-image-' + wish.id" [id]="'input-image-label' + wish.id" class="label-image">
+        @if (imagesrc) {
+          <img [src]="imagesrc" alt="Uploaded Image" />
+        }
+        @else {
+          {{wish.id}}
+          📷
+        }
+        @if (imagesrc && is_it_bigger_image_time ) {
+          <div class="bigger-image">
+            <img [src]="imagesrc" alt="Uploaded Image" />
+          </div>
+        }
+      </label>
+      <input 
+        [id]="'input-image-' + wish.id" 
+        class="input-image" type="file" 
+        accept="image/*" 
+        alt="Uploaded Image" 
+        (change)="onFileSelectedDoUpdateImageAndUndoBiggerImage($event)"
+      />
+    </div>
+    <button (click)="onDeleteWish()">X</button>
+  }
+</article>  

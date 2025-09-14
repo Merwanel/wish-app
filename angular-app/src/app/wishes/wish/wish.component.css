@@ -1,0 +1,156 @@
+.wish {
+  position: relative;
+  background-color: var(--wish-bg-color);
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  border-block-end : var(--border-wish);
+  border-radius: 5px;
+  min-height: 2rem;
+  padding: 5px; 
+}
+.display-big-images {
+
+  border-block-start : 0;
+  position: relative;
+  margin-block-start: 8px;
+  width: var(--width-big-images);
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0;
+
+  box-shadow: 10px 5px 5px #c7bcbc;
+  /* .image-wrapper-wrapper is used to simply contain .image-wrapper  */
+  & .image-wrapper-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--width-big-images);
+    height: var(--height-big-images);
+    &:hover {
+      z-index: 10;
+      & .image-wrapper {
+        position: absolute;
+        transform: scale(1.05);
+        --border: 5px;
+        border: var(--border) solid rgb(95, 95, 95);
+        
+        width: calc(var(--border) + var(--width-big-images));
+        height: calc(var(--border) + var(--height-big-images));
+        box-shadow: 10px 5px 5px #514e4e;
+      }
+      & .delete-button {
+        z-index: 10;
+      }
+    }
+    & .image-wrapper {
+      width: var(--width-big-images);
+      height: var(--height-big-images);
+      border-radius: 5px;
+      box-shadow: 5px 5px 5px #514e4e;
+      background-color: var(--wish-bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      & img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px; 
+      }
+    }
+  }
+  & .label-image {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: var(--width-big-images);
+    align-items: center;
+    min-height: fit-content;
+    cursor: pointer;
+    /* &:hover {
+      z-index: 10;
+      & .image-wrapper {
+        transform: scale(1.05);
+        --border: 5px;
+        border: var(--border) solid rgb(95, 95, 95);
+        
+        width: calc(var(--border) + var(--width-big-images));
+        height: calc(var(--border) + var(--height-big-images));
+        box-shadow: 10px 5px 5px #514e4e;
+      }
+    } */
+    & .name-comment-tags {
+      width: var(--width-big-images);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-inline: 5px;
+      padding-block: 15px;
+    }
+
+  }
+  & .delete-button {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    
+    border-bottom-left-radius: 4px;
+    padding: 0 0 3px 3px;
+    background-color: var(--wish-bg-color);
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  & .image-wrapper {
+    width: var(--width-big-images);
+    height: var(--height-big-images);
+  }
+}
+
+
+.display-list {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 2px;
+  & .bigger-image {
+    z-index: 1;
+    position: fixed;
+    
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+@media (max-width: 700px) {
+  .wish {
+    flex-direction: column;
+  }
+}
+
+.date {
+  position : absolute ;
+  bottom: 0;
+  left: 0;
+  font-size: .55rem;
+  color:oklch(0.24 0.03 194.32 / 0.51);
+}
+
+.comment {
+  font-style: italic;
+}
+
+
+
+.label-image {
+  display: flex;
+  height: 50px;
+  cursor: pointer;
+}
+.input-image {
+  display: none;
+}

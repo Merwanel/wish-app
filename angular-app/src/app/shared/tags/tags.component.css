@@ -1,0 +1,12 @@
+.tags {
+ display: flex;
+ flex-wrap: wrap;
+ gap: 2px;
+}
+
+.add-tag-button {  
+  border: 1px black solid;
+  background-color: var(--tag-bg-color);
+  border-radius: 6px;
+  margin-inline: 5px;
+}

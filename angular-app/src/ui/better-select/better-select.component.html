@@ -1,0 +1,35 @@
+@if(options.length) {
+  <div class="wrapper-select"
+        (focusin)="onFocusInDoCancelFocusOut()"
+        (focusout)="onFocusOutDoCloseDropdown()"
+  >
+    <div class="dropdown-trigger" >
+      <button 
+        class="label" 
+        (click)="onClickDoToggleDisplayOptions()"
+      >
+        {{label}}
+      </button>
+      <button 
+        class="selected-content" 
+        (click)="onClickDoToggleDisplayOptions()" 
+      >
+        {{options[i_selected].selected_val}}
+        <div class="triangle" [ngClass]="{active:are_options_displayed}"></div>
+      </button>
+    </div>
+    @if (are_options_displayed) {
+      <div 
+        class="options"
+      >
+        @for (option of options; track $index) {
+          <button class="option" (click)="onClickDoSelectOptionAndCloseDropdownAndEmit($index)">
+            <p>
+              {{option.val}}
+            </p>
+          </button>
+        }
+    </div>
+  }
+</div>
+} 

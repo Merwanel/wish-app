@@ -1,0 +1,17 @@
+.wrapper-search {
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: var(--search-bg-color);
+  padding: 10px;
+  box-shadow: 4px 2px 5px #c7bcbc;
+}
+.search {
+  position: relative;
+  margin-right: 50%;
+  margin-left: 50%;
+}
+
+.word {
+  position: absolute;
+  left: -60px;
+}

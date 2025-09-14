@@ -1,0 +1,11 @@
+<search class="wrapper-search">
+  <div class="search">
+    <label for="search_input" class="word" >Search</label>
+    <app-dynamic-input 
+      [(inputModel)]="search" 
+      (input)="onInputDoEmit()" 
+      (keydown)="onEnterDoUnfocus($event)"
+      input_id="search_input"
+    />
+  </div>
+</search>

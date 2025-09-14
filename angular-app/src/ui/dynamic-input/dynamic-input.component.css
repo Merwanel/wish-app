@@ -1,0 +1,53 @@
+
+.inner-div-for-a-dynamic-input , .outer-div-for-a-dynamic-input{
+  margin: 0;
+  min-width: 50px;
+  min-height: 16px;
+  width: min-content;
+  font-size: var(--font-size-input);
+  /* color: transparent; */
+  white-space: nowrap;  /* otherwise the div width would not match the input */
+}
+
+.inner-div-for-a-dynamic-input {
+  border-radius: 5px;
+  border-bottom: 2px solid var(--tag-bg-color);
+  padding-left: var(--pad-left);
+  padding-right: var(--pad-right);
+
+  height: calc(var(--font-size-input) + 4px);
+}
+.comment {
+  font-size: 11px;
+  font-style: italic;
+}
+.tag {
+  border : 0;
+  border-radius: 4px;
+  background: oklch(0.70 0.25 150 / .7);
+  padding: 2px 20px 2px 5px;
+}
+.outer-div-for-a-dynamic-input{
+  --pad-left : 2px;
+  --pad-right : 2px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.input-dynamic {
+  position: absolute;
+  outline: none;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: var(--font-size-input);
+  padding: 0;
+  color: transparent;
+  padding-left: var(--pad-left);
+  padding-right: var(--pad-right);
+}
+.tag + .input-dynamic {
+  
+  padding: 2px 20px 2px 5px;
+}

@@ -1,0 +1,67 @@
+.tag-wrap{
+  position: relative;
+  margin-block: 2px;
+  --color-selected-suggestion: rgba(0, 0, 255, 0.29);
+}
+
+.delete-button {
+  position: absolute;
+  top:0;
+  right:0;
+  padding: 0;
+}
+.selected {
+  background-color:var(--color-selected-suggestion);
+}
+.tag {
+  border-radius: 4px;
+  background-color: var(--tag-bg-color);
+  padding: 2px 10px 2px 5px;
+}
+
+.inner-div-for-a-dynamic-input , .outer-div-for-a-dynamic-input{
+  margin: 0;
+  min-width: 50px;
+  width: min-content;
+  font-size: var(--font-size-input);
+  color: transparent;
+  padding-right: 10px;
+  white-space: nowrap;  /* otherwise the div width would not match the input */
+}
+
+.outer-div-for-a-dynamic-input{
+  position: relative;
+  flex-shrink: 0;
+}
+
+.input-dynamic {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: var(--font-size-input);
+  padding: 0;
+}
+
+.suggestions {
+  z-index: 10;
+  position: absolute;
+    min-width: 100px;
+  background: var(--wish-bg-color);
+  border-radius: 5px;
+  border: 1px solid;
+  top: 100%;
+  width: 100%;
+  overflow-y: scroll;
+  max-height: 300px;
+  padding-left: 5px;
+}
+.suggestion-button {
+  width: 100%;
+  text-align: justify;
+  border-block-end: 1px solid gray ;
+}
+.suggestion-button:hover {
+  background-color:var(--color-selected-suggestion);
+}

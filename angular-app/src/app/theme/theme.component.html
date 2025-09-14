@@ -1,0 +1,7 @@
+<div class="theme-selector">
+  <select [(ngModel)]="currentTheme" (ngModelChange)="onThemeChangeDoUpdate($any($event))" class="theme-select">
+    @for (theme of themeService.availableThemes; track theme.name) {
+      <option [value]="theme.name">{{ theme.displayName }}</option>
+    }
+  </select>
+</div>

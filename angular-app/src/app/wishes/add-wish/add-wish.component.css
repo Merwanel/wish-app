@@ -1,0 +1,118 @@
+.form {
+  background-color: var(--add-bg-color);
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid black;
+  min-height: 2rem;
+  --font-size-input: medium;
+}
+
+.wrapper-name-input {
+  position: relative;
+  min-height: 275px;
+  display: flex;
+  align-items: center;
+}
+
+.alert {
+  position: absolute;
+  transform: translateY(100%);
+}
+
+.complete-buttons {
+  --little-space: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--little-space);
+  margin-block: var(--little-space);
+  margin-inline-end: var(--little-space);
+}
+
+.decision-button {
+  border-radius: 5px;
+  padding: 3px 3px;
+}
+.cancel-button {
+  background-color: var(--reject-color);
+}
+
+.create-button {
+  background-color: var(--valid-color);
+}
+
+.image-display {
+  width: var(--width-big-images);
+  height: var(--height-big-images);
+}
+
+.image-suggestions {
+  margin-inline: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 150px;
+  gap: 8px;
+}
+
+.image-suggestion {
+  flex: 1 1 min(150px, calc(50% - 4px));
+  max-width: min(150px, calc(50% - 4px));
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.image-suggestion img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+
+#upload {
+  display: none;
+}
+
+.upload-label {
+  border: 2px solid black;
+  border-radius: 4px;
+  display: inline-block;
+  padding: 4px 10px;
+  margin-block: 4px;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  flex: 1 1 min(150px, calc(50% - 4px));
+  max-width: min(150px, calc(50% - 4px));
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.suggestions-button {
+  border: 2px solid var(--font-color);
+  border-radius: 4px;
+  padding: 4px 10px;
+}

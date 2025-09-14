@@ -1,0 +1,14 @@
+  <div 
+      class="outer-div-for-a-dynamic-input" contenteditable="true">
+    <div #InputRef [ngClass]="{tag:is_tag, comment:is_comment}"  class="inner-div-for-a-dynamic-input" contenteditable="true">
+       <app-display-letters [letters]="inputModel.letters"/>
+    </div>
+    <input 
+      [id]="input_id"
+      autocomplete="off" name="comment" type="text" class="input-dynamic" 
+      [autofocus]="is_autofocus"
+      [(ngModel)]="inputModel.val" (ngModelChange)="inputModelChange.emit(inputModel)"
+      (focus)="onFocusDoEmit()" (blur)="onBlurDoEmit()" (input)="onInputDoSync()"  (submit)="onSubmitDoPreventDefault($event)"
+    />
+
+  </div>
