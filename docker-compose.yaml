@@ -91,7 +91,8 @@ services:
       echo '✅ All services are ready and running!' &&
       echo '🌐 Application is available at: http://localhost:8080' &&
       echo '📡 API server running on: http://localhost:3000' &&
-      echo '🗄️  Database running on: localhost:5432'
+      echo '🗄️ Database running on: localhost:5432' &&
+      echo '🔴 Ctrl+C to stop the app'
       "
     restart: "no"
 
