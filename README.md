@@ -26,8 +26,6 @@ A CRUD app for wishes
 
 ## Production
 ```bash
-# Clone and start the full application
-git clone <repository-url>
 docker compose up
 ```
 
