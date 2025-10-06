@@ -26,7 +26,7 @@ async function initializeServices() {
   }
 
   await redis_client.initialize({
-    url: process.env.REDIS_URL || 'redis://redis-cache:6379'
+    url: process.env.REDIS_URL || ''
   });
   console.log('✅ Services initialization completed');
 }

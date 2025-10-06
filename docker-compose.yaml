@@ -17,13 +17,7 @@ services:
         condition: service_healthy
     command: >
       sh -c "
-      echo '🔧 Step 1: Starting virtual display...' && 
-      sleep 2 &&
-      echo '✅ Step 2: Virtual display started' &&
-      echo '🔧 Step 3: Starting migration deployment...' &&
       npx dotenvx run -f .env.docker -- npx prisma migrate deploy &&
-      echo '✅ Step 4: Migration deployment completed' &&
-      echo '🚀 Step 5: Starting Node.js server... ' &&
       exec npx dotenvx run -f .env.docker -- node ./build/server.js # exec to make node the process to receive SIGINT
       "
     healthcheck:
@@ -38,7 +32,9 @@ services:
     image: redis:8.2.2-alpine
     ports:
       - '6379:6379' 
-    heakthcheck:
+    networks:
+      - my-net
+    healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       retries: 3
       start_period: 5s 
@@ -101,8 +97,6 @@ services:
         condition: service_healthy
     command: >
       sh -c "
-      echo '🎉 BUILD SUCCESS! 🎉' &&
-      echo '✅ All services are ready and running!' &&
       echo '🌐 Application is available at: http://localhost:8080' &&
       echo '📡 API server running on: http://localhost:3000' &&
       echo '🗄️ Database running on: localhost:5432' &&
