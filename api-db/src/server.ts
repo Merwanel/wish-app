@@ -14,31 +14,27 @@ const express = require("express");
 const app = express();
 const prisma = new PrismaClient();
 
-const redis_client = new OptionalRedis() ;
+const redis_client = new OptionalRedis();
 
-if (process.env.NODE_ENV !== 'test' && process.env.POSTGRES_DB !== 'testdatabase') {
-  console.log('Starting database initialization...');
-  initDb(prisma)
-  .then(() => {
+async function initializeServices() {
+  if (process.env.NODE_ENV !== 'test' && process.env.POSTGRES_DB !== 'testdatabase') {
+    console.log('Starting database initialization...');
+    await initDb(prisma);
     console.log('✅ Database initialization completed successfully');
-  })
-  .then(async () => {
-    await redis_client.initialize({
-      url:String(process.env.REDIS_URL),
-      connectTimeout: 5000,
-      reconnectStrategy: false
-    });
-  })
-  .then(() => {
-    console.log('✅ Redis initialization completed');
-  })
-  .catch(error => {
-    console.error('❌ Database initialization failed:', error);
-    process.exit(1);
+  } else {
+    console.log('Skipping database initialization in test environment');
+  }
+
+  await redis_client.initialize({
+    url: process.env.REDIS_URL || 'redis://redis-cache:6379'
   });
-} else {
-  console.log('Skipping database initialization in test environment');
+  console.log('✅ Services initialization completed');
 }
+
+initializeServices().catch(error => {
+  console.error('❌ Services initialization failed:', error);
+  process.exit(1);
+});
 
 const cors = require('cors');
 
@@ -203,8 +199,18 @@ app.get("/search/:search_term", async (req: Request, res: Response) => {
     return;
   }
   const search_term = req.params.search_term;
-  
-  
+
+  // todo: del
+  // const RED_DOT_IMAGE = new Uint8Array([
+  // 	137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 5, 0, 0, 0,
+  // 	5, 8, 6, 0, 0, 0, 141, 111, 38, 229, 0, 0, 0, 28, 73, 68, 65, 84, 8, 215, 99, 248,
+  // 	255, 255, 63, 195, 127, 6, 32, 5, 195, 32, 18, 132, 208, 49, 241, 130, 88, 205, 4,
+  // 	0, 14, 245, 53, 203, 209, 142, 14, 31, 0, 0, 0, 0, 73, 69, 78, 68, 174, 66, 96, 130
+  // ])
+  // redis_client.set(search_term, JSON.stringify(
+  //   [Buffer.from(RED_DOT_IMAGE).toString('base64')]
+  // ))
+
   // Send the result as SSE data
   res.writeHead(200, {
     'Content-Type': 'text/event-stream',
@@ -215,49 +221,57 @@ app.get("/search/:search_term", async (req: Request, res: Response) => {
   });
 
   const data = await redis_client.get(search_term);
-  let retrieved_from_cache = false ;
-  const res_from_cache =  data ? z.string().array().parse(JSON.parse(data)) : null;
+  let retrieved_from_cache = false;
+  const res_from_cache = data ? z.string().array().parse(JSON.parse(data)) : null;
+
   if (res_from_cache) {
-    retrieved_from_cache = true ;
-    for(let cache_image_base64 of res_from_cache) {
-      res.write(`data: ${cache_image_base64}\n\n`);
+    console.log("cache hit")
+    retrieved_from_cache = true;
+    for (let cache_image_base64 of res_from_cache) {
+      res.write(`data: ${JSON.stringify({ image: cache_image_base64 })}\n\n`);
     }
     res.write(`data: ${JSON.stringify({ type: 'complete' })}\n\n`);
     res.end();
     return
   }
-  
   let completedEngines = 0;
   const totalEngines = SERIALIZABLE_SEARCH_ENGINE.length;
-  
+
   const checkCompletion = () => {
     if (completedEngines === totalEngines) {
       res.write(`data: ${JSON.stringify({ type: 'complete' })}\n\n`);
       res.end();
     }
   };
-  
-  const res_to_cache : string[] = []
-  
+
+  // TODO : DEL and uncomment
+  // console.log('HITTT')
+  // res.write(`data: TESTTTTT\n\n`);
+  // completedEngines = totalEngines;
+  // checkCompletion();
+
+  const res_to_cache: string[] = []
+
+  // Start all search engines in parallel
   for (const searchEngine of SERIALIZABLE_SEARCH_ENGINE) {
-    await processByWorker(searchEngine, search_term)
-    .then((result) => {
-      const res_base64 = JSON.stringify({ image: Buffer.from(result).toString('base64') })
-      res_to_cache.push(res_base64)
-      
-      res.write(`data: ${res_base64}\n\n`);
-      completedEngines++;
-      checkCompletion();
-    })
-    .catch((error) => {
-      console.error(`Error processing ${searchEngine.name}:`, error);
-      completedEngines++;
-      checkCompletion();
-    });
-  };
-  
+    processByWorker(searchEngine, search_term)
+      .then((result) => {
+        const res_base64 = Buffer.from(result).toString('base64');
+        res_to_cache.push(res_base64);
+
+        res.write(`data: ${JSON.stringify({ image: res_base64 })}\n\n`);
+        completedEngines++;
+        checkCompletion();
+      })
+      .catch((error) => {
+        console.error(`Error processing ${searchEngine.name}:`, error);
+        completedEngines++;
+        checkCompletion();
+      });
+  }
+
   req.on('close', () => {
-    if( !retrieved_from_cache ) {
+    if (!retrieved_from_cache) {
       redis_client.set(search_term, JSON.stringify(res_to_cache));
     }
     res.end();

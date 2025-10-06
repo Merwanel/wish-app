@@ -3,38 +3,53 @@ import { createClient, RedisClientOptions } from "redis";
 export class OptionalRedis {
   private redisClient: ReturnType<typeof createClient> | null = null;
 
-  async initialize({url, ...rest} : {url: string, [x:string]: any}) {
-    try {
-      this.redisClient = createClient({ url , ...rest}) ;
-      this.redisClient.on('error', err => console.log('Redis Client Error', err));
+  async initialize({ url, ...rest }: { url: string } & Omit<RedisClientOptions, 'url'>): Promise<OptionalRedis> {
 
-      await this.redisClient .connect();
-    }
-    catch(err) {
-      console.error("redis connection failed:", err)
-    }
-    return this ;
-  }
+    try {
+      this.redisClient = createClient({
+        url,
+        ...rest,
+        socket: {
+          connectTimeout: 2000,
+          reconnectStrategy: false,
+          ...rest.socket
+        }
+      });
 
-  async set(key: string, value: string) {
-    try {
-      if(this.redisClient) {
-        await this.redisClient.set(key, value) ;
-      }
+      this.redisClient.on('error', (err) => {
+        console.log('⚠️ Redis error - url:', url, 'error:', err.message);
+      });
+
+      await this.redisClient.connect();
+      console.log('✅ Redis connected successfully to', url);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : String(err);
+      console.log('⚠️ Redis unavailable, continuing without cache. Error:', errorMsg);
+      this.redisClient = null;
     }
-    catch(err) {
-      console.error("redis set failed :", err)
+    return this;
+  }
+  
+  async set(key: string, value: string): Promise<void> {
+    if (!this.redisClient) return;
+    
+    try {
+      await this.redisClient.set(key, value);
+    } catch (err) {
+      console.warn('Redis set failed:', err instanceof Error ? err.message : String(err));
+      this.redisClient = null;
     }
   }
-  async get(key: string) {
+  
+  async get(key: string): Promise<string | null> {
+    if (!this.redisClient) return null;
+    
     try {
-      if(this.redisClient) {
-        return await this.redisClient.get(key) ;
-      }
+      return await this.redisClient.get(key);
+    } catch (err) {
+      console.warn('Redis get failed:', err instanceof Error ? err.message : String(err));
+      this.redisClient = null;
+      return null;
     }
-    catch(err) {
-      console.error("redis get failed :", err)
-    }
-    return null;
   }
 }
