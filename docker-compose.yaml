@@ -11,17 +11,13 @@ services:
     restart: on-failure:3
     stop_grace_period: 3s
     depends_on:
+      redis-cache:
+        condition: service_healthy
       prisma-postgres:
         condition: service_healthy
     command: >
       sh -c "
-      echo '🔧 Step 1: Starting virtual display...' && 
-      sleep 2 &&
-      echo '✅ Step 2: Virtual display started' &&
-      echo '🔧 Step 3: Starting migration deployment...' &&
       npx dotenvx run -f .env.docker -- npx prisma migrate deploy &&
-      echo '✅ Step 4: Migration deployment completed' &&
-      echo '🚀 Step 5: Starting Node.js server... ' &&
       exec npx dotenvx run -f .env.docker -- node ./build/server.js # exec to make node the process to receive SIGINT
       "
     healthcheck:
@@ -30,6 +26,20 @@ services:
       timeout: 3s
       retries: 20
       start_period: 30s
+      
+  
+  redis-cache:
+    image: redis:8.2.2-alpine
+    ports:
+      - '6379:6379' 
+    networks:
+      - my-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      retries: 3
+      start_period: 5s 
+    volumes:
+      - redis_data:/data
 
 
   prisma-postgres:
@@ -87,8 +97,6 @@ services:
         condition: service_healthy
     command: >
       sh -c "
-      echo '🎉 BUILD SUCCESS! 🎉' &&
-      echo '✅ All services are ready and running!' &&
       echo '🌐 Application is available at: http://localhost:8080' &&
       echo '📡 API server running on: http://localhost:3000' &&
       echo '🗄️ Database running on: localhost:5432' &&
@@ -99,6 +107,8 @@ services:
 
 volumes:
   postgres_data:
+    driver: local
+  redis_data:
     driver: local
 networks:
   my-net:

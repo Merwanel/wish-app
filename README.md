@@ -3,8 +3,8 @@
 
 A CRUD app for wishes
 
-![App screenshot](app-screenshot.png)
-*screenshot of the app*
+![App diagram](diagram.png)
+
 
 ## Features
 
@@ -22,7 +22,7 @@ A CRUD app for wishes
 
 * **Backend** : Node.js, Express, TypeScript, Prisma ORM, Sharp , Playwright (for web scraping)
 
-* **Infrastructure** : nginx, PostgreSQL 17, Docker, dotenvx
+* **Infrastructure** : nginx, redis, PostgreSQL 17, Docker, dotenvx
 
 ## Production
 ```bash
@@ -70,6 +70,7 @@ npm -w angular-app test  # Frontend tests
 ├── api-db/                # Backend
 │   ├── src/server.ts       # Express backend 
 │   ├── src/api-get-image   # Scrapper 
+│   ├── src/redis           # Redis class
 │   ├── src/spec            # Tests
 │   ├── src/init            # Data to initialise the database 
 │   └── prisma/             # Database schema              
@@ -79,9 +80,14 @@ npm -w angular-app test  # Frontend tests
 
 ```
 
-## 🎯 Future imporvements
+## 🎯 Future improvements
 
 - Export/import functionality
 - History
+
+
+
+![App screenshot](app-screenshot.png)
+*screenshot of the app*
 
 ---
