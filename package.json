@@ -3,6 +3,9 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
+        "postinstall": "npm run -w api-db install:headless-browser",
+
+        "pretest": "npm run build:schemas:dev",
         "test": "concurrently --kill-others-on-fail  -n api-db,angular-app -c green,blue  'npm run -w api-db test' 'npm run -w angular-app test:headless'",
         
         "build:dev": "npm run build:schemas:dev && npm run -w api-db build:dev",
