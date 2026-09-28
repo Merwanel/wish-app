@@ -39,6 +39,9 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@angular/common": "21.2.24",
+    "@angular/compiler": "21.2.24",
+    "@angular/core": "21.2.24",
     "@dotenvx/dotenvx": "^1.44.1",
     "@prisma/client": "^6.7.0",
     "cors": "^2.8.5",
@@ -49,7 +52,7 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "redis": "^5.8.3",
     "shared-schemas": "1.0.0",
-    "sharp": "^0.34.2",
+    "sharp": "^0.35.5",
     "uint8array-extras": "^1.4.0",
     "uuid": "^11.1.0",
     "zod": "^3.25.6"
