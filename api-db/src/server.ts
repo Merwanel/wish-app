@@ -130,7 +130,7 @@ app.patch("/update-wish", async (req: Request, res: Response) => {
 });
 
 app.delete("/delete-wish/:id", async (req: Request, res: Response) => {
-  if (req.params.id.length == 0 || !isNumber(req.params.id)) {
+  if (req.params.id.length == 0 || !isNumber(req.params.id as string)) {
     res.sendStatus(400);
     return;
   }
@@ -210,7 +210,7 @@ app.get("/search/:search_term", async (req: Request, res: Response) => {
     'Access-Control-Allow-Headers': 'Cache-Control'
   });
 
-  const data = await redis_client.get(search_term);
+  const data = await redis_client.get(search_term as string);
   let retrieved_from_cache = false;
   const res_from_cache = data ? z.string().array().parse(JSON.parse(data)) : null;
 
@@ -238,7 +238,7 @@ app.get("/search/:search_term", async (req: Request, res: Response) => {
 
   // Starting all workers in parallel
   for (const searchEngine of SERIALIZABLE_SEARCH_ENGINE) {
-    processByWorker(searchEngine, search_term)
+    processByWorker(searchEngine, search_term as string)
       .then((result) => {
         const res_base64 = Buffer.from(result).toString('base64');
         res_to_cache.push(res_base64);
@@ -256,7 +256,7 @@ app.get("/search/:search_term", async (req: Request, res: Response) => {
 
   req.on('close', () => {
     if (!retrieved_from_cache) {
-      redis_client.set(search_term, JSON.stringify(res_to_cache));
+      redis_client.set(search_term as string, JSON.stringify(res_to_cache));
     }
     res.end();
   });

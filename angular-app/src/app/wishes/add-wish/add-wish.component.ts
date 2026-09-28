@@ -127,7 +127,7 @@ export class AddWishComponent {
     };
   }
   onClickImageSuggestionDoSelect(index: number) {
-    this.imageBuffer = this.imagesSuggestions[index].buffer;
+    this.imageBuffer = this.imagesSuggestions[index].buffer.slice();
     this.imageUrlDisplayed = this.imagesSuggestions[index].display;
   }
 }

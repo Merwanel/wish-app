@@ -35,7 +35,7 @@ export async function initDb(prisma: PrismaClient) {
         comment: wish.comment,
         createdAt: new Date(wish.createdAt).toISOString(),
         tags: wish.tags,
-        picture: await loadImageData("data/",wish.imageFile),
+        picture: (await loadImageData("data/",wish.imageFile)).slice(),
       }
     });
   }));    
